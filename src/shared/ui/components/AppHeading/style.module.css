@@ -1,0 +1,23 @@
+.root {
+    font-family: GroteskHeading;
+}
+
+.XS {
+    line-height: 1.313rem;
+    font-size: 1rem;
+}
+
+.S {
+    line-height: 1.625rem;
+    font-size: 1.25rem;
+}
+
+.M {
+    line-height: 1.938rem;
+    font-size: 1.5rem;
+}
+
+.L {
+    line-height: 4.438rem;
+    font-size: 3.5rem;
+}

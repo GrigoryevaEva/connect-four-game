@@ -1,0 +1,25 @@
+:root {
+    /* colors */
+    --black: #000000;
+    --white: #FFFFFF;
+    --pink: #FD6687;
+    --purple-dark: #5C2DD5;
+    --purple: #7945FF;
+    --yellow: #FFCE67;
+}
+
+@font-face {
+    font-family: GroteskHeading;
+    src:
+        local('SpaceGrotesk-Bold'),
+        local('SpaceGrotesk-Bold'),
+        url('../assets/fonts/SpaceGrotesk-Bold.ttf') format('opentype');
+}
+
+@font-face {
+    font-family: Grotesk;
+    src:
+        local('SpaceGrotesk-Medium'),
+        local('SpaceGrotesk-Medium'),
+        url('../assets/fonts/SpaceGrotesk-Medium.ttf') format('opentype');
+}
