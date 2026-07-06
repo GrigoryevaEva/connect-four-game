@@ -3,10 +3,15 @@ import style from './style.module.css'
 interface IAppHeadingProps {
   readonly text: string
   readonly size: 'L' | 'M' | 'S' | 'XS'
+  readonly theme?: 'light' | 'dark'
 }
 
 export const AppHeading = (props: IAppHeadingProps) => {
     return (
-        <p className={`${style.root} ${style[props.size]}`}>{props.text}</p>
+        <p className={`
+            ${style.root} 
+            ${props.theme === 'dark' && style.dark} 
+            ${style[props.size]}
+        `}>{props.text}</p>
     )
 }

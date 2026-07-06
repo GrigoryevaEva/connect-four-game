@@ -1,5 +1,10 @@
 .root {
     font-family: GroteskHeading;
+    color: var(--black);
+}
+
+.dark {
+    color: var(--white);
 }
 
 .XS {

@@ -23,3 +23,10 @@
         local('SpaceGrotesk-Medium'),
         url('../assets/fonts/SpaceGrotesk-Medium.ttf') format('opentype');
 }
+
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; 
+}

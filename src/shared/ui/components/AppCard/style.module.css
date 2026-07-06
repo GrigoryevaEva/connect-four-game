@@ -1,0 +1,13 @@
+.root {
+    border: 3px solid var(--black);
+    border-radius: 1.25rem;
+    box-shadow: 0 10px var(--black);
+}
+
+.light {
+    background-color: var(--white);
+}
+
+.dark {
+    background-color: var(--purple);
+}

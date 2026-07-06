@@ -1,0 +1,54 @@
+.root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: var(--purple);
+}
+
+.content {
+    position: relative;
+
+    width: 60vw;
+    max-width: 35rem;
+}
+
+@media screen and (width <= 640px) {
+    .content {
+        width: 90vw;
+    }
+}
+
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    padding: 2.5rem;
+}
+
+.heading {
+    align-self: center;
+}
+
+.groupText {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.point {
+    display: flex;
+    gap: 1rem;
+}
+
+.checkButton {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+}

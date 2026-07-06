@@ -1,0 +1,266 @@
+.root {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100vh;
+    width: 100vw;
+
+    background-color: var(--purple);
+}
+
+.board {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+
+    width: fit-content;
+}
+
+.blackBoard {
+    z-index: 50;
+
+    position: relative;
+
+    pointer-events: none;
+}
+
+.whiteBoard {
+    z-index: 100;
+
+    position: absolute;
+    left: 0;
+
+    pointer-events: none;
+}
+
+.boardWrapper {
+    z-index: 70;
+
+    position: absolute;
+    left: 17px;
+    top: 16px;
+
+    display: flex;
+    gap: 18px;
+}
+
+.col {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 13px;
+}
+
+.marker {
+    position: absolute;
+    top: -55px;
+
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+.markerVisible {
+    opacity: 1;
+    transition: all 0.2s;
+}
+
+.cell {
+    width: 70px;
+    height: 75px;
+}
+
+.cellImg {
+    --cell-height: 88px;
+    --start-offset: calc(var(--row-index) * var(--cell-height) * -1);
+    
+    animation: fall-cell 1s 1 normal;
+    animation-fill-mode: both;
+}
+
+@keyframes fall-cell {
+    0% {
+        opacity: 0;
+        transform: translateY(calc(var(--start-offset)));
+        animation-timing-function: ease-in;
+    }
+
+    10% {
+        opacity: 1;
+        transform: translateY(calc(var(--start-offset)));
+        animation-timing-function: ease-in;
+    }
+
+    65% {
+        transform: translateY(5px);
+        animation-timing-function: ease-out;
+    }
+
+    75% {
+        transform: translateY(-8px);
+        animation-timing-function: ease-in;
+    }
+
+    85% {
+        transform: translateY(3px);
+        animation-timing-function: ease-out;
+    }
+
+    93% {
+        transform: translateY(-2px);
+        animation-timing-function: ease-in;
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.resultGameCard {
+    z-index: 150;
+
+    position: absolute;
+    bottom: -128px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 285px;
+
+    padding: 20px;
+}
+
+.turnCard {
+    z-index: 150;
+
+    position: absolute;
+    bottom: -128px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+.turnInfo {
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+
+    padding: 30px;
+}
+
+.footer {
+    z-index: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    height: 200px;
+
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+
+    background-color: var(--purple-dark);
+}
+
+.footerWinOne {
+    background-color: var(--pink);
+}
+
+.footerWinTwo {
+    background-color: var(--yellow);
+}
+
+.playerCard {
+    position: absolute;
+    bottom: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 40px 30px 30px 30px;
+}
+
+.playerCardOne {
+    left: -200px;
+}
+
+.playerCardTwo {
+    right: -200px;
+}
+
+.playerImg {
+    position: absolute;
+    top: -30px;
+}
+
+@media screen and (width <= 1040px) {
+    .header {
+        padding: 1rem;
+        justify-content: space-around;
+    }
+
+    .board {
+        bottom: -30px;
+    }
+
+    .playerCard {
+        top: -100px;
+        bottom: auto;
+
+        gap: 2rem;
+
+        padding: 0 2.5rem;
+    }
+
+    .playerCardOne {
+        flex-direction: row;
+        right: 55%;
+        left: auto;
+    }
+
+    .playerCardTwo {
+        flex-direction: row-reverse;
+        left: 55%;
+        right: auto;
+    }
+
+    .playerCardTwo .playerImg {
+        top: 5px;
+        right: -30px;
+    }
+
+    .playerCardOne .playerImg {
+        top: 5px;
+        left: -30px;
+    }
+}
