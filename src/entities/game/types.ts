@@ -9,7 +9,7 @@ export type TGameState = {
   readonly countWinsTwoUser: number
 
   readonly board: Array<Array<TUsers | null>>
-  readonly winnerCells: TCell[] | null
+  readonly winnerCells: TCell[]
 
   readonly valueMoveTimer: number
   readonly intervalId: number | null
@@ -36,6 +36,8 @@ export type TActions = {
   readonly checkDiagonalWin: (colIndex: number, cellIndex: number) => void
   readonly checkAccessMove: (colIndex: number) => boolean
   readonly checkDeadend: () => void
+
+  readonly checkCellIsWin: (colIndex: number, cellIndex: number) => boolean
 
   readonly startMoveTimer: () => void
   readonly pauseMoveTimer: () => void

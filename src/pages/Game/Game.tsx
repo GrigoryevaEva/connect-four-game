@@ -46,6 +46,7 @@ export const Game = () => {
     pauseGame,
     continueGame,
     checkAccessMove,
+    checkCellIsWin,
     } = useGameState(useShallow((state) => ({
 		board: state.board,
         activeUser: state.activeUser,
@@ -62,6 +63,7 @@ export const Game = () => {
         continueGame: state.continueGame,
         restartGame: state.restartGame,
         checkAccessMove: state.checkAccessMove,
+        checkCellIsWin: state.checkCellIsWin,
     })))
 
     const renderNameUser = (user: TUsers | null) => {
@@ -90,12 +92,14 @@ export const Game = () => {
     <div className={style.root}>
         <div className={style.header}>
             <AppButton 
+                className={style.headerButton}
                 text='MENU' 
                 type='secondary' 
                 whenClick={handlePauseGame}
             />
             <img src={logo} />
             <AppButton 
+                className={style.headerButton}
                 text='RESTART' 
                 type='secondary' 
                 whenClick={restartGame}
@@ -113,25 +117,27 @@ export const Game = () => {
             <div className={style.boardWrapper}>
                 {board.map((col, colIndex) => (
                     <div 
-                    className={style.col} key={colIndex} 
-                    onClick={() => handleMove(colIndex)}
-                    onMouseOver={() => !isWin && setHoveredColIndex(colIndex)}
-                    onMouseOut={() => setHoveredColIndex(null)}
+                        className={style.col} key={colIndex} 
+                        onClick={() => handleMove(colIndex)}
+                        onMouseOver={() => !isWin && setHoveredColIndex(colIndex)}
+                        onMouseOut={() => setHoveredColIndex(null)}
                     >
-                        <img 
-                            className={`
-                                ${style.marker} 
-                                ${
-                                    hoveredColIndex === colIndex 
-                                    && checkAccessMove(colIndex) 
-                                    && (style.markerVisible)}
-                            `}
-                            src={
-                                activeUser === 'one'
-                                    ? markerPink
-                                    : markerYellow
-                            } 
-                        />
+                        {width > MOBILE_SIZE && (
+                            <img 
+                                className={`
+                                    ${style.marker} 
+                                    ${
+                                        hoveredColIndex === colIndex 
+                                        && checkAccessMove(colIndex) 
+                                        && (style.markerVisible)}
+                                `}
+                                src={
+                                    activeUser === 'one'
+                                        ? markerPink
+                                        : markerYellow
+                                } 
+                            />
+                        )}
                         {col.map((cell, rowIndex) => (
                             <div 
                                 key={rowIndex}
@@ -148,6 +154,9 @@ export const Game = () => {
                                     } 
                                 />
                               )}
+                              {checkCellIsWin(colIndex, rowIndex) && (
+                                <div className={style.winMarker}></div>
+                              )}
                             </div>
                         ))}
                     </div>
@@ -161,8 +170,8 @@ export const Game = () => {
                             className={style.playerImg}
                             src={playerOne}
                         />
-                        <AppHeading text={renderNameUser('one')} size='S' />
-                        <AppHeading text={`${countWinsOneUser}`} size='L' />
+                        <AppHeading text={renderNameUser('one')} size={`${width > MOBILE_SIZE ? 'S' : 'XS'}`} />
+                        <AppHeading text={`${countWinsOneUser}`} size={`${width > MOBILE_SIZE ? 'L' : 'M'}`} />
                     </>
                 }
             />
@@ -174,8 +183,8 @@ export const Game = () => {
                             className={style.playerImg}
                             src={playerTwo}
                         />
-                        <AppHeading text={renderNameUser('two')} size='S' />
-                        <AppHeading text={`${countWinsTwoUser}`} size='L' />
+                        <AppHeading text={renderNameUser('two')} size={`${width > MOBILE_SIZE ? 'S' : 'XS'}`} />
+                        <AppHeading text={`${countWinsTwoUser}`} size={`${width > MOBILE_SIZE ? 'L' : 'M'}`} />
                     </>
                 }
             />

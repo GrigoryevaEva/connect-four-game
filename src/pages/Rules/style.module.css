@@ -52,3 +52,11 @@
     left: 50%;
     transform: translateX(-50%);
 }
+
+.purpleHeading {
+    color: var(--purple);
+}
+
+.text {
+    color: var(--gray);
+}

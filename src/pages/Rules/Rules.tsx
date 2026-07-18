@@ -26,26 +26,26 @@ export const Rules = () => {
                                 <AppHeading text='RULES' size='L' />
                             </div>
                             <div className={style.groupText}>
-                                <AppHeading text='OBJECTIVE' size='S' />
-                                <AppText text='Be the first player to connect 4 of the same colored discs in a row (either vertically, horizontally, or diagonally).' />
+                                <AppHeading className={style.purpleHeading} text='OBJECTIVE' size='S' />
+                                <AppText className={style.text} text='Be the first player to connect 4 of the same colored discs in a row (either vertically, horizontally, or diagonally).' />
                             </div>
                             <div className={style.groupText}>
-                                <AppHeading text='HOW TO PLAY' size='S' />
+                                <AppHeading className={style.purpleHeading} text='HOW TO PLAY' size='S' />
                                 <div className={style.point}>
                                     <AppHeading text='1' size='XS' />
-                                    <AppText text='Red goes first in the first game.' />
+                                    <AppText className={style.text} text='Red goes first in the first game.' />
                                 </div>
                                 <div className={style.point}>
                                     <AppHeading text='2' size='XS' />
-                                    <AppText text='Players must alternate turns, and only one disc can be dropped in each turn. ' />
+                                    <AppText className={style.text} text='Players must alternate turns, and only one disc can be dropped in each turn. ' />
                                 </div>
                                 <div className={style.point}>
                                     <AppHeading text='3' size='XS' />
-                                    <AppText text='The game ends when there is a 4-in-a-row or a stalemate.' />
+                                    <AppText className={style.text} text='The game ends when there is a 4-in-a-row or a stalemate.' />
                                 </div>
                                 <div className={style.point}>
                                     <AppHeading text='4' size='XS' />
-                                    <AppText text='The starter of the previous game goes second on the next game.' />
+                                    <AppText className={style.text} text='The starter of the previous game goes second on the next game.' />
                                 </div>
                             </div>
                         </>

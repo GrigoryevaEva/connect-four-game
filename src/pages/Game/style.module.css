@@ -42,10 +42,11 @@
 
     position: absolute;
     left: 17px;
+    right: 17px;
     top: 16px;
 
     display: flex;
-    gap: 18px;
+    justify-content: space-between;
 }
 
 .col {
@@ -71,8 +72,39 @@
 }
 
 .cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 70px;
     height: 75px;
+}
+
+.winMarker {
+    z-index: 1000;
+    position: absolute;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 100%;
+    border: 6px solid var(--white);
+
+    animation: win-marker 1s;
+}
+
+@keyframes win-marker {
+    0% {
+        opacity: 0;
+    }
+
+    65% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .cellImg {
@@ -164,15 +196,19 @@
 .header {
     position: fixed;
     top: 0;
-    right: 0;
-    left: 0;
+
+    width: 100vw;
 
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10%;
 
-    padding: 30px;
+    padding: 1.875rem;
+}
+
+.headerButton {
+    width: 6.75rem;
 }
 
 .footer {
@@ -182,7 +218,7 @@
     left: 0;
     right: 0;
 
-    height: 200px;
+    height: 20vh;
 
     border-top-left-radius: 60px;
     border-top-right-radius: 60px;
@@ -255,12 +291,75 @@
     }
 
     .playerCardTwo .playerImg {
-        top: 5px;
         right: -30px;
     }
 
     .playerCardOne .playerImg {
-        top: 5px;
         left: -30px;
+    }
+
+    .playerCard .playerImg {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+@media screen and (width <= 640px) {
+    .footer {
+        height: 32vh;
+    }
+
+    .resultGameCard {
+        bottom: -150px;
+    }
+
+    .turnCard {
+        bottom: -150px;
+    }
+
+    .playerCard {
+        top: -100px;
+
+        flex-direction: column;
+        gap: 0;
+
+        padding: 0.625rem 2.5rem;
+    }
+
+    .playerCardOne {
+        right: 52%;
+    }
+
+    .playerCardTwo {
+        left: 52%;
+    }
+
+    .playerCard .playerImg {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .boardWrapper {
+        left: 7px;
+        right: 8px;
+        top: 5px;
+
+        justify-content: space-between;
+
+        gap: 0;
+    }
+
+    .col {
+        gap: 1px;
+    }
+
+    .cell {
+        width: 40px;
+        height: 46px;
+    }
+
+    .winMarker {
+        width: 20px;
+        height: 20px;
     }
 }

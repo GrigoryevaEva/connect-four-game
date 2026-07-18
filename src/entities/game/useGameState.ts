@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import type { TActions, TGameState, TUsers } from "./types";
+import type { TActions, TCell, TGameState, TUsers } from "./types";
 import { MAX_COL_INDEX, MAX_ROW_INDEX, MIN_ROW_WIN_INDEX, QUANTITY_CELL } from "./constants";
 
 export const useGameState = create<TGameState & TActions>()((set, get) => ({
@@ -22,7 +22,7 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
       [null, null, null, null, null, null],
       [null, null, null, null, null, null],
   ],
-  winnerCells: null,
+  winnerCells: [],
 
   valueMoveTimer: 30,
   intervalId: null,
@@ -55,7 +55,7 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
             [null, null, null, null, null, null],
             [null, null, null, null, null, null],
         ],
-        winnerCells: null,
+        winnerCells: [],
         valueMoveTimer: 30,
     }))
     get().startMoveTimer()
@@ -82,7 +82,7 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
             [null, null, null, null, null, null],
             [null, null, null, null, null, null],
         ],
-        winnerCells: null,
+        winnerCells: [],
         valueMoveTimer: 30,
     }))
     get().stopMoveTimer()
@@ -139,13 +139,20 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
   },
   checkWin: (colIndex, cellIndex) => {
     get().checkVerticalWin(colIndex, cellIndex)
+    if (get().isWin) return
     get().checkHorizontalWin(colIndex, cellIndex)
+    if (get().isWin) return
     get().checkDiagonalWin(colIndex, cellIndex)
   },
   checkVerticalWin: (colIndex, cellIndex) => {
     if (cellIndex === MAX_ROW_INDEX || cellIndex > MIN_ROW_WIN_INDEX) return
 
     const board = get().board
+
+    const winnerCells: TCell[] = [{
+      colIndex: colIndex,
+      cellIndex: cellIndex,
+    }]
 
     let streak = 1
     let tmpIndex = cellIndex + 1
@@ -156,11 +163,18 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
 
       if (tmpCell !== get().activeUser) break
 
+      winnerCells.push({
+        colIndex: colIndex,
+        cellIndex: tmpIndex,
+      })
       streak += 1
       tmpIndex += 1
     }
 
-    if (streak === 4) get().winGame()
+    if (streak === 4) {
+      get().winGame()
+      set(() => ({ winnerCells: winnerCells }))
+    }
   },
   checkHorizontalWin: (colIndex, cellIndex) => {
     const board = get().board
@@ -168,9 +182,13 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
     const row: Array<TUsers | null> = []
     board.forEach((col) => row.push(col[cellIndex]))
 
+    const winnerCells: TCell[] = [{
+      colIndex: colIndex,
+      cellIndex: cellIndex,
+    }]
+
     let streak = 1
     let tmpRgIndex = colIndex + 1
-    let tmpLfIndex = colIndex - 1
     while (tmpRgIndex <= MAX_COL_INDEX) {
       if (streak === 4) break
 
@@ -178,9 +196,15 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
 
       if (tmpCell !== get().activeUser) break
 
+      winnerCells.push({
+        colIndex: tmpRgIndex,
+        cellIndex: cellIndex,
+      })
       streak += 1
       tmpRgIndex += 1
     }
+
+    let tmpLfIndex = colIndex - 1
     while (tmpLfIndex >= 0) {
       if (streak === 4) break
 
@@ -188,11 +212,18 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
 
       if (tmpCell !== get().activeUser) break
 
+      winnerCells.push({
+        colIndex: tmpLfIndex,
+        cellIndex: cellIndex,
+      })
       streak += 1
       tmpLfIndex -= 1
     }
 
-    if (streak === 4) get().winGame()
+    if (streak === 4) {
+      get().winGame()
+      set(() => ({ winnerCells: winnerCells }))    
+    }
   },
   checkDiagonalWin: (colIndex, cellIndex) => {
     const board = get().board
@@ -240,33 +271,62 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
       }
     })
 
+    let winnerCells: TCell[] = [{
+      colIndex: colIndex,
+      cellIndex: cellIndex,
+    }]
+
     let streakRg = 1
-    let tmpRgRgIndex = colIndex + 1
-    let tmpRgLfIndex = colIndex - 1
-    while (tmpRgRgIndex <= MAX_COL_INDEX) {
+    let tmpRgRgColIndex = colIndex + 1
+    let tmpRgRgCellIndex = cellIndex + 1
+    while (tmpRgRgColIndex <= MAX_COL_INDEX) {
       if (streakRg === 4) break
 
-      const tmpCell = diagonalRg[tmpRgRgIndex]
+      const tmpCell = diagonalRg[tmpRgRgColIndex]
 
       if (tmpCell !== get().activeUser) break
 
+      winnerCells.push({
+        colIndex: tmpRgRgColIndex,
+        cellIndex: tmpRgRgCellIndex,
+      })
       streakRg += 1
-      tmpRgRgIndex += 1
+      tmpRgRgColIndex += 1
+      tmpRgRgCellIndex += 1
     }
-    while (tmpRgLfIndex >= 0) {
+
+    let tmpRgLfColIndex = colIndex - 1
+    let tmpRgLfCellIndex = cellIndex - 1
+    while (tmpRgLfColIndex >= 0) {
       if (streakRg === 4) break
 
-      const tmpCell = diagonalRg[tmpRgLfIndex]
+      const tmpCell = diagonalRg[tmpRgLfColIndex]
 
       if (tmpCell !== get().activeUser) break
 
+      winnerCells.push({
+        colIndex: tmpRgLfColIndex,
+        cellIndex: tmpRgLfCellIndex,
+      })
       streakRg += 1
-      tmpRgLfIndex -= 1
+      tmpRgLfColIndex -= 1
+      tmpRgLfCellIndex -= 1
+    }
+
+    if (streakRg === 4) {
+      get().winGame()
+      set(() => ({ winnerCells: winnerCells }))
+      return   
+    } else {
+      winnerCells = [{
+        colIndex: colIndex,
+        cellIndex: cellIndex,
+      }]
     }
 
     let streakLf = 1
     let tmpLfRgIndex = colIndex + 1
-    let tmpLfLfIndex = colIndex - 1
+    let tmpLfRgCellIndex = cellIndex - 1
     while (tmpLfRgIndex <= MAX_COL_INDEX) {
       if (streakLf === 4 || streakRg === 4) break
 
@@ -274,9 +334,17 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
 
       if (tmpCell !== get().activeUser) break
 
+      winnerCells.push({
+        colIndex: tmpLfRgIndex,
+        cellIndex: tmpLfRgCellIndex,
+      })
       streakLf += 1
       tmpLfRgIndex += 1
+      tmpLfRgCellIndex -= 1
     }
+
+    let tmpLfLfIndex = colIndex - 1
+    let tmpLfLfCellIndex = cellIndex + 1
     while (tmpLfLfIndex >= 0) {
       if (streakLf === 4 || streakRg === 4) break
 
@@ -284,17 +352,31 @@ export const useGameState = create<TGameState & TActions>()((set, get) => ({
 
       if (tmpCell !== get().activeUser) break
 
+      winnerCells.push({
+        colIndex: tmpLfLfIndex,
+        cellIndex: tmpLfLfCellIndex,
+      })
       streakLf += 1
       tmpLfLfIndex -= 1
+      tmpLfLfCellIndex += 1
     }
 
-    if (streakRg === 4 || streakLf === 4) get().winGame()
+    if (streakLf === 4) {
+      get().winGame()
+      set(() => ({ winnerCells: winnerCells }))
+    }
   },
   checkAccessMove: (colIndex) => {
     return Boolean(!get().board[colIndex].at(0))
   },
   checkDeadend: () => {
     if (get().countOccupiedCells === QUANTITY_CELL) get().deadendGame()
+  },
+
+  checkCellIsWin: (colIndex, cellIndex) => {
+    return get().winnerCells.some(cell => (
+      cell.colIndex === colIndex && cell.cellIndex === cellIndex
+    ));
   },
 
   startMoveTimer: () => {
