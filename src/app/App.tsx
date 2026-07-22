@@ -3,6 +3,9 @@ import { useGameState } from "../entities/game";
 import { Game } from "../pages/Game";
 import { Menu } from "../pages/Menu";
 import { Rules } from "../pages/Rules";
+import { AppHeading } from "../shared/ui/components/AppHeading";
+
+import style from './style.module.css'
 
 export const App = () => {
 
@@ -15,7 +18,7 @@ export const App = () => {
   })))
 
   return (
-    <div>
+    <div className={style.root}>
       {
         activeGame
           ? <Game />
@@ -23,6 +26,12 @@ export const App = () => {
             ? <Rules />
             : <Menu />
       }
+      <AppHeading 
+        className={style.watermark} 
+        size="S"
+        theme="dark"
+        text="DESIGN - frontendmentor.io"
+      />
     </div>
   )
 }

@@ -1,0 +1,1 @@
+The terms of reference and design are taken from the website [Frontend Mentor](https:/www.frontendmentor.io)
